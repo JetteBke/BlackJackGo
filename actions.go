@@ -19,7 +19,7 @@ func generateSet(filePath string) set {
 	return convertToSet(fileContent)
 }
 
-func drawUserCards(oldSet set) ([]card, set) {
+func drawCards(oldSet set) ([]card, set) {
 	cardOne, set := drawCard(oldSet)
 	cardTwo, newSet := drawCard(set)
 	return []card{cardOne, cardTwo}, newSet
@@ -41,9 +41,9 @@ func calculateResult(cards []card) int {
 	return sum
 }
 
-func playRound(set set, userCards []card) ([]card, int, set) {
+func playRound(set set, cards []card) ([]card, int, set) {
 	newCard, newSet := drawCard(set)
-	newUserCards := append(userCards, newCard)
-	result := calculateResult(newUserCards)
-	return newUserCards, result, newSet
+	newBankCards := append(cards, newCard)
+	result := calculateResult(newBankCards)
+	return newBankCards, result, newSet
 }

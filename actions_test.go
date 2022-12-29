@@ -15,7 +15,7 @@ func TestDrawCard(t *testing.T) {
 
 func TestDrawUserCards(t *testing.T) {
 	set := generateSet("./test_set.csv")
-	userCards, newSet := drawUserCards(set)
+	userCards, newSet := drawCards(set)
 	if !(len(newSet.set) == 2) && !(len(userCards) == 2) {
 		t.Error("Did not draw user cards correctly!")
 	}

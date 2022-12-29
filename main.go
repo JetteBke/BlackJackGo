@@ -14,32 +14,43 @@ func main() {
 	userInput := readUserInput(reader)
 
 	if userInput == "1" {
-		result := play(reader)
-		if result == BlackJack {
-			fmt.Println("YOU WIN YEEEESSSS!!")
-		} else {
-			fmt.Println("You lost!")
-		}
+		fmt.Println("------------ START ------------")
+		userResult, bankResult := play(reader)
+		fmt.Println("------------ END ------------")
+		fmt.Printf("The bank had: %d \n", bankResult)
+		message := createEndGameMessage(userResult, bankResult)
+		fmt.Println(message)
+
 	} else {
 		fmt.Println("See you next time!")
 	}
 }
 
-func play(reader *bufio.Reader) int {
-	userCards, result, set := setup()
-	displayCardsAndResultToUser(result, userCards)
-	for result < BlackJack {
+func play(reader *bufio.Reader) (int, int) {
+	userCards, set, bankCards := setup()
+	userResult := calculateResult(userCards)
+	bankResult := calculateResult(bankCards)
+	displayCardsAndResultToUser(userResult, userCards, bankCards[0])
+
+	round := 1
+
+	for userResult < BlackJack && bankResult < BlackJack {
+		fmt.Printf("------------ ROUND %d------------\n", round)
 		fmt.Println("Do you want to draw another card (1) or end game (2)?")
 		userInput := readUserInput(reader)
 		if userInput == "1" {
-			newUserCards, newResult, newSet := playRound(set, userCards)
-			displayCardsAndResultToUser(newResult, newUserCards)
+			newUserCards, newUserResult, setV1 := playRound(set, userCards)
+			newBankCards, newBankResult, newSet := playRound(setV1, bankCards)
+			displayCardsAndResultToUser(newUserResult, newUserCards, bankCards[0])
 			userCards = newUserCards
-			result = newResult
+			userResult = newUserResult
+			bankCards = newBankCards
+			bankResult = newBankResult
 			set = newSet
 		} else {
-			return result
+			return userResult, bankResult
 		}
+		round += 1
 	}
-	return result
+	return userResult, bankResult
 }
