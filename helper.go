@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var BLACK_JACK = 21
+var BlackJack = 21
 
 func readUserInput(reader *bufio.Reader) string {
 	text, err := reader.ReadString('\n')

@@ -15,7 +15,7 @@ func main() {
 
 	if userInput == "1" {
 		result := play(reader)
-		if result == BLACK_JACK {
+		if result == BlackJack {
 			fmt.Println("YOU WIN YEEEESSSS!!")
 		} else {
 			fmt.Println("You lost!")
@@ -28,7 +28,7 @@ func main() {
 func play(reader *bufio.Reader) int {
 	userCards, result, set := setup()
 	displayCardsAndResultToUser(result, userCards)
-	for result < BLACK_JACK {
+	for result < BlackJack {
 		fmt.Println("Do you want to draw another card (1) or end game (2)?")
 		userInput := readUserInput(reader)
 		if userInput == "1" {
