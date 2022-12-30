@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/samber/lo"
 	"math/rand"
 	"time"
 )
@@ -34,16 +35,27 @@ func drawCard(oldSet set) (card, set) {
 }
 
 func calculateResult(cards []card) int {
-	sum := 0
-	for _, card := range cards {
-		sum += card.value
-	}
-	return sum
+	return lo.Reduce(cards, func(agg int, item card, index int) int {
+		return agg + item.value
+	}, 0)
 }
 
-func playRound(set set, cards []card) ([]card, int, set) {
+func playUserRound(set set, cards []card) ([]card, int, set) {
 	newCard, newSet := drawCard(set)
 	newBankCards := append(cards, newCard)
 	result := calculateResult(newBankCards)
 	return newBankCards, result, newSet
+}
+
+func playBankRound(set set, cards []card) ([]card, int, set) {
+	bankResult := calculateResult(cards)
+	switch {
+	case bankResult >= 17:
+		return cards, bankResult, set
+	default:
+		newCard, newSet := drawCard(set)
+		newBankCards := append(cards, newCard)
+		result := calculateResult(newBankCards)
+		return newBankCards, result, newSet
+	}
 }

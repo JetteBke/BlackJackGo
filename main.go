@@ -17,8 +17,8 @@ func main() {
 		fmt.Println("------------ START ------------")
 		userResult, bankResult := play(reader)
 		fmt.Println("------------ END ------------")
-		fmt.Printf("The bank had: %d \n", bankResult)
 		message := createEndGameMessage(userResult, bankResult)
+		fmt.Printf("The bank had: %d \n", bankResult)
 		fmt.Println(message)
 
 	} else {
@@ -39,8 +39,8 @@ func play(reader *bufio.Reader) (int, int) {
 		fmt.Println("Do you want to draw another card (1) or end game (2)?")
 		userInput := readUserInput(reader)
 		if userInput == "1" {
-			newUserCards, newUserResult, setV1 := playRound(set, userCards)
-			newBankCards, newBankResult, newSet := playRound(setV1, bankCards)
+			newUserCards, newUserResult, setV1 := playUserRound(set, userCards)
+			newBankCards, newBankResult, newSet := playBankRound(setV1, bankCards)
 			displayCardsAndResultToUser(newUserResult, newUserCards, bankCards[0])
 			userCards = newUserCards
 			userResult = newUserResult
